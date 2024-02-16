@@ -13,11 +13,13 @@ class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private static final int CHAT_END = 1;
     private static final int CHAT_START = 2;
 
+    private String MessageTimestamp;
     private List<Message> mDataSet;
     private String mId;
 
-    ChatAdapter(List<Message> dataSet, String id) {
+    ChatAdapter(List<Message> dataSet, String id, String timestamp) {
         mDataSet = dataSet;
+        MessageTimestamp = timestamp;
         mId = id;
     }
 
@@ -47,6 +49,8 @@ class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message chat = mDataSet.get(position);
         holder.mTextView.setText(chat.getMessage());
+        holder.messageTimestamp.setText(chat.getTimestamp());
+
     }
 
     @Override
@@ -56,10 +60,12 @@ class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView mTextView;
+        TextView messageTimestamp;
 
         ViewHolder(View v) {
             super(v);
             mTextView = (TextView) itemView.findViewById(R.id.tvMessage);
+            messageTimestamp = (TextView) itemView.findViewById(R.id.messageTimestamp);
         }
     }
 }

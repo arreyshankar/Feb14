@@ -4,16 +4,19 @@ import java.util.ArrayList;
 
 public class Message {
     public String message;
+    public String timestamp;
     public String id;
 
     public Message() {
     }
 
-    public Message(String message, String id) {
+    public Message(String message, String id, String timestamp) {
         this.message = message;
+        this.timestamp = timestamp;
         this.id = id;
     }
 
+    public String getTimestamp(){return timestamp;}
     public String getMessage() {
         return message;
     }

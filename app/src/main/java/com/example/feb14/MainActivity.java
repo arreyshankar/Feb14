@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,13 +38,15 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
 
     private EditText metText;
-    private Button mbtSent;
+    private ImageButton mbtSent,mbtVoice;
     private DatabaseReference mFirebaseRef;
 
     private List<Message> mChats = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private ChatAdapter mAdapter;
     private String mId;
+    private String timestamp;
+
     @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //mRecyclerView.setItemAnimator(new SlideInOutLeftItemAnimator(mRecyclerView));
-        mAdapter = new ChatAdapter(mChats, mId);
+        mAdapter = new ChatAdapter(mChats, mId, timestamp);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -66,13 +71,16 @@ public class MainActivity extends AppCompatActivity {
         mbtSent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat(" HH:mm:ss ");
+                timestamp =  format.format(calendar.getTime());
+
                 String message = metText.getText().toString();
 
                 if (!message.isEmpty()) {
-
-                    mFirebaseRef.push().setValue(new Message(message, mId));
+                    mFirebaseRef.push().setValue(new Message(message, mId, timestamp));
                 }
-
                 metText.setText("");
             }
         });
