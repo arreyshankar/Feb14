@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                                     SimpleDateFormat format = new SimpleDateFormat(" HH:mm:ss ");
                                     timestamp =  format.format(calendar.getTime());
 
-                                    Toast.makeText(MainActivity.this, "Uploaded ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, "sapna chadhary", Toast.LENGTH_SHORT).show();
                                     mFirebaseRef.push().setValue(new Message(fileurl,mId,timestamp));
                                 }
                             });
