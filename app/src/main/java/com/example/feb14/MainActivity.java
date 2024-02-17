@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Message> mChats = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private ChatAdapter mAdapter;
-    private ImageChatBubbleAdapter imageChatBubbleAdapter;
     private String mId;
     private String fileurl;
     private String timestamp;
@@ -84,9 +83,8 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //mRecyclerView.setItemAnimator(new SlideInOutLeftItemAnimator(mRecyclerView));
         mAdapter = new ChatAdapter(mChats, mId, timestamp);
-        imageChatBubbleAdapter = new ImageChatBubbleAdapter(mChats,mId,timestamp);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setAdapter(imageChatBubbleAdapter);
+        //mRecyclerView.setAdapter(imageChatBubbleAdapter);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -106,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             String message = metText.getText().toString();
 
             if (!message.isEmpty()) {
-                mFirebaseRef.push().setValue(new Message(message, mId, timestamp));
+                mFirebaseRef.push().setValue(new Message(message, mId, timestamp,Boolean.FALSE));
             }
             metText.setText("");
         });
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         Message model = dataSnapshot.getValue(Message.class);
 
                         mChats.add(model);
-                        mRecyclerView.scrollToPosition(mChats.size() - 1);
+                        mRecyclerView.smoothScrollToPosition(mChats.size() - 1);
                         mAdapter.notifyItemInserted(mChats.size() - 1);
 
 
@@ -227,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                                     timestamp =  format.format(calendar.getTime());
 
                                     Toast.makeText(MainActivity.this, "sapna chadhary", Toast.LENGTH_SHORT).show();
-                                    mFirebaseRef.push().setValue(new Message(fileurl,mId,timestamp));
+                                    mFirebaseRef.push().setValue(new Message(fileurl,mId,timestamp,Boolean.TRUE));
                                 }
                             });
                         }
