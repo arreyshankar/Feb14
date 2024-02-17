@@ -8,6 +8,7 @@ public class Message {
     public String id;
 
     public Message() {
+
     }
 
     public Message(String message, String id, String timestamp) {
@@ -20,16 +21,9 @@ public class Message {
     public String getMessage() {
         return message;
     }
+    public String getId() {return id;}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setMessage(String message) {this.message = message;}
+    public void setTimestamp(String timestamp){this.timestamp = timestamp;}
+    public void setId(String id) {this.id = id;}
 }
